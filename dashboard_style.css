@@ -10,7 +10,7 @@ body {
   background: #eef2f7;
   background-image: radial-gradient(circle at top left, #dbeafe 10%, transparent 10%), radial-gradient(circle at bottom right, #fef3c7 10%, transparent 10%);
   background-size: 100px 100px;
-  padding: 50px 20px;
+  padding: 15px 20px;
   color: #1f2937;
 }
 
@@ -134,8 +134,8 @@ form {
   padding: 26px;
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  max-width: 380px;     
-  margin: 10px auto 0;   
+  max-width: 380px;
+  margin: 10px auto 0;
 }
 
 form label {
