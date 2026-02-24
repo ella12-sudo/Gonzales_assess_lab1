@@ -126,3 +126,111 @@ h2 {
   .nav-bar { flex-direction: column; }
   .stats-container { grid-template-columns: 1fr; }
 }
+
+/* ================= FORM STYLING ================= */
+
+form {
+  background: #ffffff;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 380px;     
+  margin: 10px auto 0;   
+}
+
+form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+form input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: all 0.2s ease;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+form input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99,102,241,0.3);
+}
+/* ================= CLIENT TABLE FIX ================= */
+
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.client-table th {
+  text-align: left;
+  padding: 16px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.client-table td {
+  padding: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.client-table tr:hover {
+  background: #f9fafb;
+  transition: 0.2s ease;
+}
+
+/* Fix column spacing */
+.client-table td,
+.client-table th {
+  min-width: 120px;
+}
+
+/* Edit button style */
+.client-table a {
+  padding: 6px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  background: #e0e7ff;
+  color: #4338ca;
+  transition: 0.2s ease;
+}
+
+.client-table a:hover {
+  background: #6366f1;
+  color: #ffffff;
+}
