@@ -234,3 +234,145 @@ form button:hover {
   background: #6366f1;
   color: #ffffff;
 }
+
+/* ================= BOOKINGS TABLE ================= */
+
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.bookings-table th {
+  text-align: left;
+  padding: 16px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.bookings-table td {
+  padding: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.bookings-table tr:hover {
+  background: #f9fafb;
+  transition: 0.2s ease;
+}
+
+.bookings-table td,
+.bookings-table th {
+  min-width: 120px;
+}
+
+.bookings-table a {
+  padding: 6px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  background: #e0e7ff;
+  color: #4338ca;
+  transition: 0.2s ease;
+}
+
+.bookings-table a:hover {
+  background: #6366f1;
+  color: #ffffff;
+}
+
+/* Center the Create Booking link */
+.create-booking-link {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.create-booking-link a {
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #6366f1;
+  color: #6366f1;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.create-booking-link a:hover {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* ================= BOOKINGS FORM ================= */
+
+.form-container {
+  max-width: 500px;
+  margin: 20px auto 50px;
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+}
+
+.form-container form {
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  max-width: 100%;
+}
+
+.form-container label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.form-container select,
+.form-container input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  margin-bottom: 18px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.form-container select:focus,
+.form-container input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.form-container button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.form-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(99,102,241,0.3);
+}
