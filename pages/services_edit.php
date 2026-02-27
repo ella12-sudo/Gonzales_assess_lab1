@@ -22,8 +22,57 @@ if (isset($_POST['update'])) {
 <!doctype html>
 <html>
 <head>
-    <link rel="stylesheet" href="../dashboard_style.css">
-    <meta charset="utf-8"><title>Edit Service</title></head>
+  <meta charset="utf-8">
+  <title>Edit Service</title>
+  <link rel="stylesheet" href="../dashboard_style.css">
+
+  <style>
+    .form-container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 35px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .form-container label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-container input,
+    .form-container textarea,
+    .form-container select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 18px;
+      box-sizing: border-box;
+    }
+
+    .form-container textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(to right, #5f6de0, #7b4de0);
+      cursor: pointer;
+    }
+  </style>
+</head>
 <body>
 <?php include "../nav.php"; ?>
  
