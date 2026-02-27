@@ -46,9 +46,12 @@ $result = mysqli_query($conn, $sql);
             <td><?php echo $b['hours']; ?></td>
             <td>₱<?php echo number_format($b['total_cost'],2); ?></td>
             <td><?php echo $b['status']; ?></td>
-           <td>
-    <a href="payment_process.php?booking_id=<?php echo $b['booking_id']; ?>">Process Payment</a>
-</td>
+            <td>
+                <!-- Correct Action link -->
+                <a href="payment_process.php?booking_id=<?php echo $b['booking_id']; ?>">
+                    Process Payment
+                </a>
+            </td>
         </tr>
     <?php } ?>
 </table>
