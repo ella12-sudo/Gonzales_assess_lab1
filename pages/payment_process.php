@@ -1,10 +1,14 @@
 <?php
-<<<<<<< HEAD
+// Show errors for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include "../db.php";
 
+// Validate booking_id
 $booking_id = isset($_GET['booking_id']) ? (int)$_GET['booking_id'] : 0;
 
-// Default values (so page never crashes)
+// Default values
 $total_cost = 0;
 $total_paid = 0;
 $balance = 0;
@@ -12,96 +16,27 @@ $message = "";
 
 // Get booking
 $result = mysqli_query($conn, "SELECT * FROM bookings WHERE booking_id=$booking_id");
-
 if ($result && mysqli_num_rows($result) > 0) {
-
     $booking = mysqli_fetch_assoc($result);
     $total_cost = $booking['total_cost'];
 
-    // Get total paid
+    // Get total paid so far
     $paidRow = mysqli_fetch_assoc(
         mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id")
     );
-
     $total_paid = $paidRow['paid'];
     $balance = $total_cost - $total_paid;
-
 } else {
     $message = "Booking not found.";
 }
 
-
-// PROCESS PAYMENT
+// Process payment submission
 if (isset($_POST['pay'])) {
-
-=======
-// Show errors instead of blank screen
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Use the same DB include as other pages
-include "../db.php";
-
-// Validate booking_id from GET
-if (!isset($_GET['booking_id']) || !is_numeric($_GET['booking_id'])) {
-    die("Invalid booking ID.");
-}
-$booking_id = (int)$_GET['booking_id'];
-
-// Fetch booking details
-$booking = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM bookings WHERE booking_id=$booking_id"));
-if (!$booking) {
-    die("Booking not found.");
-}
-
-// Use the correct column name from your DB (confirmed: total_cost)
-$total_cost = $booking['total_cost'];
-
-// Get total paid so far
-$paidRow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id"));
-$total_paid = $paidRow['paid'];
-
-// Compute balance
-$balance = $total_cost - $total_paid;
-$message = "";
-
-// Handle payment submission
-if (isset($_POST['pay'])) {
->>>>>>> 8152153fe51ca59788cf7424855e93a6a4807d54
     $amount = $_POST['amount_paid'];
     $method = $_POST['method'];
 
     if ($amount <= 0) {
         $message = "Invalid amount!";
-<<<<<<< HEAD
-    } 
-    else if ($amount > $balance) {
-        $message = "Amount exceeds balance!";
-    } 
-    else {
-
-        // Insert payment
-        mysqli_query($conn, 
-            "INSERT INTO payments (booking_id, amount_paid, method)
-             VALUES ($booking_id, $amount, '$method')"
-        );
-
-        // Recompute total paid
-        $paidRow2 = mysqli_fetch_assoc(
-            mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id")
-        );
-
-        $total_paid2 = $paidRow2['paid'];
-        $new_balance = $total_cost - $total_paid2;
-
-        // If fully paid → update status
-        if ($new_balance <= 0.009) {
-            mysqli_query($conn, 
-                "UPDATE bookings SET status='PAID' WHERE booking_id=$booking_id"
-            );
-        }
-
-=======
     } else if ($amount > $balance) {
         $message = "Amount exceeds balance!";
     } else {
@@ -109,7 +44,9 @@ if (isset($_POST['pay'])) {
         mysqli_query($conn, "INSERT INTO payments (booking_id, amount_paid, method) VALUES ($booking_id, $amount, '$method')");
 
         // Recompute totals
-        $paidRow2 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id"));
+        $paidRow2 = mysqli_fetch_assoc(
+            mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id")
+        );
         $total_paid2 = $paidRow2['paid'];
         $new_balance = $total_cost - $total_paid2;
 
@@ -119,23 +56,13 @@ if (isset($_POST['pay'])) {
         }
 
         // Redirect back to bookings list
->>>>>>> 8152153fe51ca59788cf7424855e93a6a4807d54
         header("Location: bookings_list.php");
         exit;
     }
 }
 ?>
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Process Payment</title>
-</head>
-<body>
-<?php include "../nav.php"; ?>
 
-<<<<<<< HEAD
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -143,24 +70,21 @@ if (isset($_POST['pay'])) {
     <link rel="stylesheet" href="../dashboard_style.css">
 </head>
 <body>
+<?php include "../nav.php"; ?>
 
 <div class="dashboard-container">
-
     <h2>Process Payment (Booking #<?php echo $booking_id; ?>)</h2>
+
+    <div class="payment-summary">
+        <p><strong>Total Cost:</strong> ₱<?php echo number_format($total_cost,2); ?></p>
+        <p><strong>Total Paid:</strong> ₱<?php echo number_format($total_paid,2); ?></p>
+        <p><strong>Balance:</strong> ₱<?php echo number_format($balance,2); ?></p>
+    </div>
+
+    <p style="color:red;"><?php echo $message; ?></p>
 
     <div class="form-container">
         <form method="POST">
-
-            <div class="payment-summary">
-                <p><strong>Total Cost:</strong> ₱<?php echo number_format($total_cost,2); ?></p>
-                <p><strong>Total Paid:</strong> ₱<?php echo number_format($total_paid,2); ?></p>
-                <p class="balance">
-                    <strong>Balance:</strong> ₱<?php echo number_format($balance,2); ?>
-                </p>
-            </div>
-
-            <p style="color:red;"><?php echo $message; ?></p>
-
             <label>Amount Paid</label>
             <input type="number" name="amount_paid" step="0.01" required>
 
@@ -172,38 +96,8 @@ if (isset($_POST['pay'])) {
             </select>
 
             <button type="submit" name="pay">Save Payment</button>
-
         </form>
     </div>
-
 </div>
-
 </body>
 </html>
- 
-=======
-<h2>Process Payment (Booking #<?php echo $booking_id; ?>)</h2>
-
-<p>Total Cost: ₱<?php echo number_format($total_cost, 2); ?></p>
-<p>Total Paid: ₱<?php echo number_format($total_paid, 2); ?></p>
-<p><b>Balance: ₱<?php echo number_format($balance, 2); ?></b></p>
-
-<p style="color:red;"><?php echo $message; ?></p>
-
-<form method="post">
-    <label>Amount Paid</label><br>
-    <input type="number" name="amount_paid" step="0.01" required><br><br>
-
-    <label>Method</label><br>
-    <select name="method" required>
-        <option value="CASH">CASH</option>
-        <option value="GCASH">GCASH</option>
-        <option value="CARD">CARD</option>
-    </select><br><br>
-
-    <button type="submit" name="pay">Save Payment</button>
-</form>
-
-</body>
-</html>
->>>>>>> 8152153fe51ca59788cf7424855e93a6a4807d54
