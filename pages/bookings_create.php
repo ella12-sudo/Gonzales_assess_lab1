@@ -1,25 +1,29 @@
 <?php
 include "../db.php";
- 
+
+// Fetch clients and services
 $clients = mysqli_query($conn, "SELECT * FROM clients ORDER BY full_name ASC");
 $services = mysqli_query($conn, "SELECT * FROM services WHERE is_active=1 ORDER BY service_name ASC");
- 
+
+// Handle form submission
 if (isset($_POST['create'])) {
-  $client_id = $_POST['client_id'];
-  $service_id = $_POST['service_id'];
-  $booking_date = $_POST['booking_date'];
-  $hours = $_POST['hours'];
- 
-  $s = mysqli_fetch_assoc(mysqli_query($conn, "SELECT hourly_rate FROM services WHERE service_id=$service_id"));
-  $rate = $s['hourly_rate'];
- 
-  $total = $rate * $hours;
- 
-  mysqli_query($conn, "INSERT INTO bookings (client_id, service_id, booking_date, hours, hourly_rate_snapshot, total_cost, status)
-    VALUES ($client_id, $service_id, '$booking_date', $hours, $rate, $total, 'PENDING')");
- 
-  header("Location: bookings_list.php");
-  exit;
+    $client_id = $_POST['client_id'];
+    $service_id = $_POST['service_id'];
+    $booking_date = $_POST['booking_date'];
+    $hours = $_POST['hours'];
+
+    // Get the hourly rate
+    $s = mysqli_fetch_assoc(mysqli_query($conn, "SELECT hourly_rate FROM services WHERE service_id=$service_id"));
+    $rate = $s['hourly_rate'];
+
+    $total = $rate * $hours;
+
+    // Insert booking
+    mysqli_query($conn, "INSERT INTO bookings (client_id, service_id, booking_date, hours, hourly_rate_snapshot, total_cost, status)
+        VALUES ($client_id, $service_id, '$booking_date', $hours, $rate, $total, 'PENDING')");
+
+    header("Location: bookings_list.php");
+    exit;
 }
 ?>
 <!doctype html>
@@ -30,34 +34,45 @@ if (isset($_POST['create'])) {
     <link rel="stylesheet" href="../dashboard_style.css">
 </head>
 <body>
-<?php include "../nav.php"; ?>
- 
-<h2>Create Booking</h2>
- 
-<form method="post">
-  <label>Client</label><br>
-  <select name="client_id">
-    <?php while($c = mysqli_fetch_assoc($clients)) { ?>
-      <option value="<?php echo $c['client_id']; ?>"><?php echo $c['full_name']; ?></option>
-    <?php } ?>
-  </select><br><br>
- 
-  <label>Service</label><br>
-  <select name="service_id">
-    <?php while($s = mysqli_fetch_assoc($services)) { ?>
-      <option value="<?php echo $s['service_id']; ?>">
-        <?php echo $s['service_name']; ?> (₱<?php echo number_format($s['hourly_rate'],2); ?>/hr)
-      </option>
-    <?php } ?>
-  </select><br><br>
- 
-  <label>Date</label><br>
-  <input type="date" name="booking_date"><br><br>
- 
-  <label>Hours</label><br>
-  <input type="number" name="hours" min="1" value="1"><br><br>
- 
-  <button type="submit" name="create">Create Booking</button>
-</form>
+
+<?php include "../nav.php"; ?> <!-- Always after <body> -->
+
+<div class="dashboard-container">
+
+    <h2>Create Booking</h2>
+
+    <form method="post" class="form-container">
+
+        <label>Client</label>
+        <select name="client_id">
+            <?php while($c = mysqli_fetch_assoc($clients)) { ?>
+                <option value="<?php echo $c['client_id']; ?>">
+                    <?php echo $c['full_name']; ?>
+                </option>
+            <?php } ?>
+        </select>
+
+        <label>Service</label>
+        <select name="service_id">
+            <?php
+            // Re-fetch services to ensure we start from first row
+            $services = mysqli_query($conn, "SELECT * FROM services WHERE is_active=1 ORDER BY service_name ASC");
+            while($s = mysqli_fetch_assoc($services)) { ?>
+                <option value="<?php echo $s['service_id']; ?>">
+                    <?php echo $s['service_name']; ?> (₱<?php echo number_format($s['hourly_rate'],2); ?>/hr)
+                </option>
+            <?php } ?>
+        </select>
+
+        <label>Date</label>
+        <input type="date" name="booking_date">
+
+        <label>Hours</label>
+        <input type="number" name="hours" min="1" value="1">
+
+        <button type="submit" name="create">Create Booking</button>
+    </form>
+
+</div>
 </body>
 </html>

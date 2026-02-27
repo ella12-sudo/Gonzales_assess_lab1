@@ -9,7 +9,6 @@ include "../db.php";
   $hourly_rate = $_POST['hourly_rate'];
   $is_active = $_POST['is_active'];
  
-  // simple validation
   if ($service_name == "" || $hourly_rate == "") {
     $message = "Service name and hourly rate are required!";
   } else if (!is_numeric($hourly_rate) || $hourly_rate <= 0) {
@@ -26,7 +25,11 @@ include "../db.php";
 ?>
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Add Service</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Add Service</title>
+  <link rel="stylesheet" href="../dashboard_style.css">
+</head>
 <body>
 <?php include "../nav.php"; ?>
  

@@ -1,26 +1,22 @@
 <?php
-// Show errors for debugging
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include "../db.php";
 
-// Validate booking_id
 $booking_id = isset($_GET['booking_id']) ? (int)$_GET['booking_id'] : 0;
 
-// Default values
 $total_cost = 0;
 $total_paid = 0;
 $balance = 0;
 $message = "";
 
-// Get booking
 $result = mysqli_query($conn, "SELECT * FROM bookings WHERE booking_id=$booking_id");
 if ($result && mysqli_num_rows($result) > 0) {
     $booking = mysqli_fetch_assoc($result);
     $total_cost = $booking['total_cost'];
 
-    // Get total paid so far
     $paidRow = mysqli_fetch_assoc(
         mysqli_query($conn, "SELECT IFNULL(SUM(amount_paid),0) AS paid FROM payments WHERE booking_id=$booking_id")
     );
